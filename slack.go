@@ -7,9 +7,9 @@ import (
 	"io/ioutil"
 )
 
-func PostToSlackChat(slackUrl string,msg string)(error){
+func PostToSlackChat(slackUrl string,user string,msg string)(error){
         msg = strings.Replace(msg,"\n"," ",-1)
-        slackText := "{\"username\": \"builder\",\"text\":\""+msg+"\"}"
+        slackText := "{\"username\": \""+user+"\",\"text\":\""+msg+"\"}"
 
 	Info("Try send slack")
         resp, cliErr := http.PostForm(slackUrl,
@@ -26,6 +26,6 @@ func PostToSlackChat(slackUrl string,msg string)(error){
                 Error("read body %s error %s",body,readBodyErr)
                 return readBodyErr
         }
-        Success("text:%s code %s body %s",slackText,resp.Status,body)
+        Success("text:%s code %s",slackText,resp.Status)
         return nil
 }
